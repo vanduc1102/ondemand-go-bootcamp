@@ -1,7 +1,7 @@
 package services
 
 import (
-	"errors"
+	"fmt"
 	"os"
 	"strconv"
 
@@ -9,17 +9,17 @@ import (
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/utils"
 )
 
-func FindById(id int) (models.Pokemon, error) {
+func FindById(id int) (*models.Pokemon, error) {
 	var pokemonList, error = LoadPokemonFromCSV()
 	if error != nil {
-		return models.Pokemon{}, error
+		return nil, error
 	}
 	for _, pokemon := range pokemonList {
 		if pokemon.Id == id {
-			return pokemon, nil
+			return &pokemon, nil
 		}
 	}
-	return models.Pokemon{}, errors.New("pokemon id does not exist")
+	return nil, fmt.Errorf("pokemon id=%v does not exist", id)
 }
 
 func LoadPokemonFromCSV() ([]models.Pokemon, error) {
@@ -40,7 +40,7 @@ func createPokemonList(data [][]string) ([]models.Pokemon, error) {
 			if j == 0 {
 				id, error := strconv.Atoi(field)
 				if error != nil {
-					return nil, errors.New("each item in the csv must have an id element as integer type")
+					return nil, fmt.Errorf("id=%v is not a valid integer type", field)
 				}
 				pokemon.Id = id
 			} else if j == 1 {

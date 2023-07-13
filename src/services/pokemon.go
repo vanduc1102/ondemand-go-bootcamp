@@ -19,7 +19,7 @@ func FindById(id int) (*models.Pokemon, error) {
 			return &pokemon, nil
 		}
 	}
-	return nil, fmt.Errorf("pokemon id=%v does not exist", id)
+	return nil, fmt.Errorf("pokemon id=%d does not exist", id)
 }
 
 func LoadPokemonFromCSV() ([]models.Pokemon, error) {
@@ -40,7 +40,7 @@ func createPokemonList(data [][]string) ([]models.Pokemon, error) {
 			if j == 0 {
 				id, error := strconv.Atoi(field)
 				if error != nil {
-					return nil, fmt.Errorf("id=%v is not a valid integer type", field)
+					return nil, fmt.Errorf("id=%s is not a valid integer type", field)
 				}
 				pokemon.Id = id
 			} else if j == 1 {

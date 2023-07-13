@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -9,9 +10,10 @@ import (
 )
 
 func FindPokemon(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	paramId := ctx.Param("id")
+	id, err := strconv.Atoi(paramId)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid pokemon id"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid pokemon id=%s", paramId)})
 		return
 	}
 

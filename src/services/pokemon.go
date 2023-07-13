@@ -9,6 +9,14 @@ import (
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/utils"
 )
 
+func FindAll() ([]models.Pokemon, error) {
+	var pokemonList, error = LoadPokemonFromCSV()
+	if error != nil {
+		return nil, error
+	}
+	return pokemonList, nil
+}
+
 func FindById(id int) (*models.Pokemon, error) {
 	var pokemonList, error = LoadPokemonFromCSV()
 	if error != nil {

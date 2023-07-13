@@ -26,6 +26,7 @@ func main() {
 		})
 	})
 
+	router.GET("pokemon/", controllers.FindPokemonList)
 	router.GET("pokemon/:id", controllers.FindPokemon)
 	router.Run("localhost:8080")
 }

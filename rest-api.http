@@ -12,3 +12,8 @@ GET http://localhost:8080/pokemon/111
 
 ### Get with error s
 GET http://localhost:8080/pokemon/s11
+
+
+### Get all pokemon
+
+GET http://localhost:8080/pokemon/

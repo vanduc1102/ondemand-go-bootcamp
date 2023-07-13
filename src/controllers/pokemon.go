@@ -9,6 +9,16 @@ import (
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/services"
 )
 
+func FindPokemonList(ctx *gin.Context) {
+	pokemonList, error := services.FindAll()
+	if error != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": error.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": pokemonList})
+}
+
 func FindPokemon(ctx *gin.Context) {
 	paramId := ctx.Param("id")
 	id, err := strconv.Atoi(paramId)

@@ -37,3 +37,29 @@ func FindPokemon(ctx *gin.Context) {
 		"data": pokemon,
 	})
 }
+
+type ImportPokemonInput struct {
+	Limit  int `json:"limit" binding:"required,min=1"`
+	Offset int `json:"offset" binding:"required,min=0"`
+}
+
+func Import(ctx *gin.Context) {
+	var input ImportPokemonInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	body, error := services.Import(input.Limit, input.Offset)
+	if error != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": error.Error(),
+		})
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": body,
+	})
+}

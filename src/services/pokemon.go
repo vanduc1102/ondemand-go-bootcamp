@@ -3,8 +3,10 @@ package services
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/viper"
+	"github.com/vanduc1102/ondemand-go-bootcamp/src/clients"
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/models"
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/utils"
 )
@@ -32,7 +34,7 @@ func FindById(id int) (*models.Pokemon, error) {
 
 func LoadPokemonFromCSV() ([]models.Pokemon, error) {
 	csvFilePath := viper.GetString("CSV_FILE")
-	data, err := utils.CsvReader(csvFilePath)
+	data, err := utils.Read(csvFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -59,4 +61,24 @@ func createPokemonList(data [][]string) ([]models.Pokemon, error) {
 	}
 
 	return pokemonList, nil
+}
+
+func Import(limit, offset int) (*clients.PokemonListResponse, error) {
+	csvFilePath := viper.GetString("CSV_FILE")
+	body, error := clients.GetPokemonList(10, 10)
+	if error != nil {
+		return nil, error
+	}
+	records := [][]string{}
+	for _, record := range body.Results {
+		row := []string{getId(record.Url), record.Name}
+		records = append(records, row)
+	}
+	utils.Write(csvFilePath, records)
+	return &body, error
+}
+
+func getId(url string) string {
+	parts := strings.Split(strings.Trim(url, "/"), "/")
+	return parts[len(parts)-1]
 }

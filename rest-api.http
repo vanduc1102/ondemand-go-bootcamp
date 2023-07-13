@@ -17,3 +17,14 @@ GET http://localhost:8080/pokemon/s11
 ### Get all pokemon
 
 GET http://localhost:8080/pokemon/
+
+
+### Import
+
+POST http://localhost:8080/pokemon/import
+Content-Type: application/json
+
+{
+    "limit":1,
+    "offset":1
+}

@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/controllers"
+	"github.com/vanduc1102/ondemand-go-bootcamp/src/utils"
 )
 
 func main() {
 
-	err := godotenv.Load()
+	_, err := utils.LoadConfig(".", "local")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("cannot load config: ", err)
 	}
 
 	router := gin.Default()

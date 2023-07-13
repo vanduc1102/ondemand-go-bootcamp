@@ -2,9 +2,9 @@ package services
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 
+	"github.com/spf13/viper"
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/models"
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/utils"
 )
@@ -31,7 +31,7 @@ func FindById(id int) (*models.Pokemon, error) {
 }
 
 func LoadPokemonFromCSV() ([]models.Pokemon, error) {
-	csvFilePath := os.Getenv("CSV_FILE")
+	csvFilePath := viper.GetString("CSV_FILE")
 	data, err := utils.CsvReader(csvFilePath)
 	if err != nil {
 		return nil, err

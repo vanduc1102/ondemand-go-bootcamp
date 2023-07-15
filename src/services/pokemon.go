@@ -65,7 +65,7 @@ func createPokemonList(data [][]string) ([]models.Pokemon, error) {
 
 func Import(limit, offset int) (*clients.PokemonListResponse, error) {
 	csvFilePath := viper.GetString("CSV_FILE")
-	body, error := clients.GetPokemonList(10, 10)
+	body, error := clients.GetPokemonList(limit, offset)
 	if error != nil {
 		return nil, error
 	}

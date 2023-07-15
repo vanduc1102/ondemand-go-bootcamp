@@ -2,13 +2,25 @@
 GET http://localhost:8080/health
 
 ### Get Pokemon by Id
-
 GET http://localhost:8080/pokemon/1
 
 ### Get with error
 GET http://localhost:8080/pokemon/111
 
 
-
 ### Get with error s
-GET http://localhost:8080/pokemon/s11
+GET http://localhost:8080/pokemon/s-11
+
+
+### Get all pokemon
+GET http://localhost:8080/pokemon/
+
+
+### Import
+POST http://localhost:8080/pokemon/import
+Content-Type: application/json
+
+{
+    "limit":100,
+    "offset":1
+}

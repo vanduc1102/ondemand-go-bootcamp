@@ -9,6 +9,31 @@ import (
 	"github.com/vanduc1102/ondemand-go-bootcamp/src/services"
 )
 
+type SearchQueryInput struct {
+	Type            string `form:"type" binding:"required,oneof=odd even"`
+	Items           int    `form:"items" binding:"required,min=0"`
+	ItemsPerWorkers int    `form:"items_per_workers" binding:"required,min=0"`
+}
+
+func Search(ctx *gin.Context) {
+	queryParams := SearchQueryInput{}
+	if err := ctx.Bind(&queryParams); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			gin.H{
+				"error": err.Error(),
+			})
+		return
+	}
+
+	pokemonList, error := services.FindAll()
+	if error != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": error.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": pokemonList})
+}
+
 func FindPokemonList(ctx *gin.Context) {
 	pokemonList, error := services.FindAll()
 	if error != nil {
@@ -39,7 +64,7 @@ func FindPokemon(ctx *gin.Context) {
 }
 
 type ImportPokemonInput struct {
-	Limit  int `json:"limit" binding:"required,min=1"`
+	Limit  int `json:"limit" binding:"required,min=1,max=1000"`
 	Offset int `json:"offset" binding:"required,min=0"`
 }
 

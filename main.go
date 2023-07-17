@@ -27,8 +27,9 @@ func main() {
 	})
 
 	router.GET("pokemon/", controllers.FindPokemonList)
-	router.GET("pokemon/:id", controllers.FindPokemon)
 	router.POST("pokemon/import", controllers.Import)
+	router.GET("pokemon/search", controllers.Search)
+	router.GET("pokemon/:id", controllers.FindPokemon)
 
 	router.Run("localhost:8080")
 }

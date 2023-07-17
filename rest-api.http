@@ -24,3 +24,6 @@ Content-Type: application/json
     "limit":100,
     "offset":1
 }
+
+### Query
+GET http://localhost:8080/pokemon/search?type=even&items=1&items_per_workers=10
